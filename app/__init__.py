@@ -1,16 +1,22 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy 
-from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, FloatField, TextAreaField
-from wtforms.validators import DataRequired
+from flask_sqlalchemy import SQLAlchemy
 import os
-# Initialize the app
+
+# Initialize the Flask app
 app = Flask(__name__)
 
-# Set up the secret key and the database URI
-app.config['SECRET_KEY'] = os.urandom(24)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/ice_cream_shop.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# Configure the app
+app.config.from_mapping(
+    SECRET_KEY=os.urandom(24),  # Generate a random secret key
+    SQLALCHEMY_DATABASE_URI=f"sqlite:///{os.path.join(app.instance_path, 'new_ice_cream_parlor.db')}",  # Database URI
+    SQLALCHEMY_TRACK_MODIFICATIONS=False,  # Disable SQLAlchemy event notifications
+)
+
+# Ensure the instance folder exists
+try:
+    os.makedirs(app.instance_path, exist_ok=True)
+except OSError as e:
+    print(f"Error creating instance folder: {e}")
 
 # Initialize the database
 db = SQLAlchemy(app)

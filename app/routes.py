@@ -2,11 +2,14 @@ from flask import Flask, render_template, request, jsonify, session, redirect, u
 from app import app
 import sqlite3
 from flask import g
+import os
 
-def get_db_connection(db_path='C:/Users/Win10/Desktop/ice_cream_parlor_app/instance/new_ice_cream_parlor.db'):
+def get_db_connection():
+    db_path = os.path.join(app.instance_path, 'new_ice_cream_parlor.db')
     conn = sqlite3.connect(db_path)
-    conn.row_factory = sqlite3.Row  
+    conn.row_factory = sqlite3.Row
     return conn
+
 
 @app.route('/flavors')
 def view_flavors():
