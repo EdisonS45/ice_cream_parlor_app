@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ice Cream Flavors</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+
+<header>
+    <h1>Seasonal Ice Cream Flavors</h1>
+</header>
+
+<div class="container">
+    <div class="search-bar">
+        <input type="text" id="search" placeholder="Search flavors...">
+    </div>
+
+    <div class="filters">
+        <select id="availability-filter">
+            <option value="all">All Flavors</option>
+            <option value="available">Available</option>
+            <option value="out-of-stock">Out of Stock</option>
+        </select>
+
+        <select id="price-filter">
+            <option value="all">All Prices</option>
+            <option value="low-to-high">Price: Low to High</option>
+            <option value="high-to-low">Price: High to Low</option>
+        </select>
+    </div>
+
+    <div id="flavor-list" class="flavor-list">
+        <div class="flavor-card" data-availability="available" data-price="120">
+            <img src="https://example.com/mango-delight.jpg" alt="Mango Delight">
+            <div class="flavor-info">
+                <h3>Mango Delight</h3>
+                <p>Fresh mango ice cream with chunks of real mango.</p>
+                <p class="price">₹120 per scoop</p>
+            </div>
+        </div>
+        <div class="flavor-card" data-availability="out-of-stock" data-price="150">
+            <img src="https://example.com/strawberry-blast.jpg" alt="Strawberry Blast">
+            <div class="flavor-info">
+                <h3>Strawberry Blast</h3>
+                <p>Delicious strawberry flavor with creamy texture.</p>
+                <p class="price">₹150 per scoop</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2024 Ice Cream Shop</p>
+</footer>
+
+<script>
+    document.getElementById('search').addEventListener('input', function() {
+        let searchTerm = this.value.toLowerCase();
+        let flavors = document.querySelectorAll('.flavor-card');
+        flavors.forEach(function(flavor) {
+            let flavorName = flavor.querySelector('h3').textContent.toLowerCase();
+            if (flavorName.includes(searchTerm)) {
+                flavor.style.display = 'inline-block';
+            } else {
+                flavor.style.display = 'none';
+            }
+        });
+    });
+
+    document.getElementById('availability-filter').addEventListener('change', function() {
+        let selectedAvailability = this.value;
+        let flavors = document.querySelectorAll('.flavor-card');
+        flavors.forEach(function(flavor) {
+            let availability = flavor.getAttribute('data-availability');
+            if (selectedAvailability === 'all' || availability === selectedAvailability) {
+                flavor.style.display = 'inline-block';
+            } else {
+                flavor.style.display = 'none';
+            }
+        });
+    });
+
+    document.getElementById('price-filter').addEventListener('change', function() {
+        let selectedPrice = this.value;
+        let flavors = Array.from(document.querySelectorAll('.flavor-card'));
+        if (selectedPrice === 'low-to-high') {
+            flavors.sort(function(a, b) {
+                return a.getAttribute('data-price') - b.getAttribute('data-price');
+            });
+        } else if (selectedPrice === 'high-to-low') {
+            flavors.sort(function(a, b) {
+                return b.getAttribute('data-price') - a.getAttribute('data-price');
+            });
+        }
+        let flavorList = document.getElementById('flavor-list');
+        flavorList.innerHTML = '';
+        flavors.forEach(function(flavor) {
+            flavorList.appendChild(flavor);
+        });
+    });
+</script>
+
+</body>
+</html>

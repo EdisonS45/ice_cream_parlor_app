@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flavor Suggestions and Allergy Concerns</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #3c8dbc;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .form-container {
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .form-container h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .form-container input, .form-container textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+
+        .form-container button {
+            background-color: #3c8dbc;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .form-container button:hover {
+            background-color: #2a6d98;
+        }
+
+        .suggestions-list {
+            margin-top: 20px;
+        }
+
+        .suggestion-card {
+            background-color: white;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .suggestion-card h3 {
+            font-size: 20px;
+            color: #3c8dbc;
+        }
+
+        .suggestion-card p {
+            font-size: 16px;
+        }
+
+        .suggestion-card .allergy-info {
+            font-style: italic;
+            color: #ff6347;
+        }
+
+        footer {
+            background-color: #3c8dbc;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Flavor Suggestions and Allergy Concerns</h1>
+</header>
+
+<div class="container">
+    <!-- Suggestion Form -->
+    <div class="form-container">
+        <h2>Submit Your Flavor Suggestion</h2>
+        <form action="{{ url_for('submit_suggestion') }}" method="POST">
+            <input type="text" name="flavor_name" placeholder="Flavor Name" required>
+            <textarea name="flavor_description" rows="4" placeholder="Flavor Description" required></textarea>
+            <input type="text" name="allergy_concern" placeholder="Allergy Concern (optional)">
+            <button type="submit">Submit Suggestion</button>
+        </form>
+    </div>
+
+    <!-- Existing Suggestions -->
+    <div class="suggestions-list">
+        <h2>Existing Suggestions</h2>
+        
+        {% for suggestion in suggestions %}
+        <div class="suggestion-card">
+            <h3>{{ suggestion.flavor_name }}</h3>
+            <p>{{ suggestion.flavor_description }}</p>
+            {% if suggestion.allergy_concern %}
+            <p class="allergy-info">Allergy Concern: {{ suggestion.allergy_concern }}</p>
+            {% else %}
+            <p>No allergy concern mentioned.</p>
+            {% endif %}
+        </div>
+        {% else %}
+        <p>No suggestions yet. Be the first to suggest a flavor!</p>
+        {% endfor %}
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2024 Ice Cream Shop</p>
+</footer>
+
+</body>
+</html>

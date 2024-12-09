@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Allergy Concerns</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    
+</head>
+<body>
+
+<header>
+    <h1>Allergy Concerns</h1>
+</header>
+
+<div class="container">
+    <div class="form-container">
+        <h2>Log Your Allergy Concern</h2>
+        <form action="{{ url_for('log_allergy') }}" method="POST">
+            <input type="text" name="allergy_name" placeholder="Allergy Name (e.g., Peanuts)" required>
+            <textarea name="concern_description" rows="4" placeholder="Describe your concern (optional)"></textarea>
+            <button type="submit">Submit Allergy Concern</button>
+        </form>
+    </div>
+
+    <div class="existing-concerns">
+        <h2>Your Existing Allergy Concerns</h2>
+        
+        {% for concern in allergy_concerns %}
+        <div class="concern-card">
+            <h3>{{ concern.allergy_name }}</h3>
+            <p>{{ concern.concern_description }}</p>
+        </div>
+        {% else %}
+        <p>No allergy concerns logged yet. Feel free to log any concerns!</p>
+        {% endfor %}
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2024 Ice Cream Shop</p>
+</footer>
+
+</body>
+</html>

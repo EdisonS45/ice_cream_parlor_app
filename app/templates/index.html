@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ice Cream Shop</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Welcome to Our Ice Cream Shop</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('view_flavors') }}">Flavors</a></li>
+                <li><a href="{{ url_for('view_ingredients') }}">Ingredients</a></li>
+                
+                <li><a href="{{ url_for('view_cart') }}">Favorite</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="search-bar">
+        <input type="text" id="search" placeholder="Search for a flavor...">
+        <select id="priceFilter">
+            <option value="">Filter by Price</option>
+            <option value="low">Under ₹150</option>
+            <option value="high">Above ₹150</option>
+        </select>
+        <button onclick="searchAndFilter()">Search & Filter</button>
+    </div>
+
+    <div class="container" id="flavorContainer">
+        {% for flavor in flavors %}
+        <div class="flavor-card">
+            <!-- Displaying dynamic image URL -->
+            <img src="{{ flavor['image_url'] }}" alt="{{ flavor['flavor_name'] }}">
+            <h3>{{ flavor['flavor_name'] }}</h3>
+            <p>{{ flavor['description'] }}</p>
+            <p><strong>₹{{ flavor['price'] }}</strong> per scoop</p>
+            
+            <form id="addToCartForm_{{ flavor['flavor_id'] }}" action="{{ url_for('add_to_cart') }}" method="POST" class="add-to-cart-form">
+                <input type="hidden" name="flavor_id" value="{{ flavor['flavor_id'] }}">
+                <button type="button" onclick="addToCart({{ flavor['flavor_id'] }})">Add to Cart</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Ice Cream Shop</p>
+    </footer>
+
+    <script>
+        function addToCart(flavorId) {
+    fetch('/add_to_cart', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ flavor_id: flavorId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert('Added to cart!');
+        console.log('Cart:', data.cart_items);
+    })
+    .catch(error => console.error('Error adding to cart:', error));
+}
+
+        function searchAndFilter() {
+            const searchInput = document.getElementById('search').value.toLowerCase();
+            const priceFilter = document.getElementById('priceFilter').value;
+
+            const flavorCards = document.querySelectorAll('.flavor-card');
+            flavorCards.forEach(card => {
+                const flavorName = card.querySelector('h3').innerText.toLowerCase();
+                const flavorPrice = parseInt(card.querySelector('p strong').innerText.replace('₹', ''));
+
+                let matchesSearch = flavorName.includes(searchInput);
+                let matchesPrice =
+                    (priceFilter === 'low' && flavorPrice < 150) ||
+                    (priceFilter === 'high' && flavorPrice >= 150) ||
+                    priceFilter === '';
+
+                if (matchesSearch && matchesPrice) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

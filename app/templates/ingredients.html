@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ice Cream Ingredients</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        header {
+            background-color: #3c8dbc;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .ingredient-card {
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin: 15px;
+            overflow: hidden;
+            width: calc(33% - 30px);
+            display: inline-block;
+            text-align: center;
+            vertical-align: top;
+        }
+
+        .ingredient-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .ingredient-card .ingredient-info {
+            padding: 15px;
+        }
+
+        .ingredient-card h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .ingredient-card p {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .ingredient-card .quantity {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ff6347;
+        }
+
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .filters select {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        footer {
+            background-color: #3c8dbc;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Ice Cream Ingredients</h1>
+</header>
+
+<div class="container">
+    <div class="filters">
+        <select id="ingredient-filter">
+            <option value="all">All Ingredients</option>
+            <option value="in-stock">In Stock</option>
+            <option value="out-of-stock">Out of Stock</option>
+        </select>
+    </div>
+
+    <div id="ingredient-list" class="ingredient-list">
+        <!-- Ingredient cards will be dynamically loaded here -->
+        <div class="ingredient-card" data-status="in-stock">
+            <img src="https://example.com/vanilla-extract.jpg" alt="Vanilla Extract">
+            <div class="ingredient-info">
+                <h3>Vanilla Extract</h3>
+                <p>Used for flavoring ice creams with a rich vanilla taste.</p>
+                <p class="quantity">10 Bottles</p>
+            </div>
+        </div>
+        <div class="ingredient-card" data-status="out-of-stock">
+            <img src="https://example.com/chocolate-chips.jpg" alt="Chocolate Chips">
+            <div class="ingredient-info">
+                <h3>Chocolate Chips</h3>
+                <p>Rich dark chocolate chips for adding texture to ice cream.</p>
+                <p class="quantity">Out of Stock</p>
+            </div>
+        </div>
+        <div class="ingredient-card" data-status="in-stock">
+            <img src="https://example.com/fresh-cream.jpg" alt="Fresh Cream">
+            <div class="ingredient-info">
+                <h3>Fresh Cream</h3>
+                <p>Fresh cream used for a smooth and creamy texture in ice cream.</p>
+                <p class="quantity">50 Liters</p>
+            </div>
+        </div>
+        <!-- More ingredient cards can be added here -->
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2024 Ice Cream Shop</p>
+</footer>
+
+<script>
+    document.getElementById('ingredient-filter').addEventListener('change', function() {
+        let selectedStatus = this.value;
+        let ingredients = document.querySelectorAll('.ingredient-card');
+        ingredients.forEach(function(ingredient) {
+            let status = ingredient.getAttribute('data-status');
+            if (selectedStatus === 'all' || status === selectedStatus) {
+                ingredient.style.display = 'inline-block';
+            } else {
+                ingredient.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
