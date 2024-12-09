@@ -8,7 +8,8 @@ A basic web app built with Flask to view ice cream flavors, add them to the cart
 
 1. **Clone the repo:**
 
-   git clone git@github.com:EdisonS45/ice_cream_parlor_app.git
+   git clone git@github.com:EdisonS45/ice_cream_parlor_app.git 
+   
    cd ice_cream_parlor_app
 
 2. **Create a Virtual Environment:**
@@ -34,8 +35,8 @@ A basic web app built with Flask to view ice cream flavors, add them to the cart
 5. **Run the App:**
 
    Set environment to development:
-   export FLASK_ENV=development   # macOS/Linux
-   set FLASK_ENV=development      # Windows
+   export FLASK_ENV=development # macOS/Linux
+   set FLASK_ENV=development # Windows
 
    Then run:
    flask run
