@@ -8,7 +8,7 @@ A basic web app built with Flask to view ice cream flavors, add them to the cart
 
 1. **Clone the repo:**
 
-   git clone https://github.com/EdisonS45/ice_cream_parlor_app.git 
+   git clone -b master https://github.com/EdisonS45/ice_cream_parlor_app.git 
    
    cd ice_cream_parlor_app
 
