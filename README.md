@@ -34,14 +34,9 @@ A basic web app built with Flask to view ice cream flavors, add them to the cart
 
 5. **Run the App:**
 
-   Set environment to development:
-   export FLASK_ENV=development # macOS/Linux
-   set FLASK_ENV=development # Windows
-
-   Then run:
    flask run
 
-6. Open a browser and go to `http://127.0.0.1:5000`
+7. Open a browser and go to `http://127.0.0.1:5000`
 
 ## Features
 
